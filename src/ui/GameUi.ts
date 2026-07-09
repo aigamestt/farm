@@ -175,13 +175,22 @@ export class GameUi {
       (tool, index) =>
         `<button class="tool-slot" data-tool="${tool}"><span>${index + 1}</span>${TOOL_LABELS[tool]}</button>`
     ).join('');
+    const recipeIcons: Record<keyof typeof BUILDING_RECIPES, string> = {
+      farmHut: '🏠',
+      campfire: '🔥',
+      workshop: '🔨',
+      waterCollector: '💧',
+      watchtower: '🗼',
+      greenhouse: '🌿'
+    };
     const recipes = Object.values(BUILDING_RECIPES)
       .map((recipe) => {
         const cost = Object.entries(recipe.cost)
           .map(([resource, amount]) => `${amount} ${resource}`)
           .join(' · ');
         return `<button class="recipe" data-craft="${recipe.kind}">
-          <strong>${recipe.name}</strong><span>${recipe.description}</span><small>${cost} · ${recipe.footprint.width}×${recipe.footprint.height} tiles</small>
+          <em class="recipe-icon">${recipeIcons[recipe.kind]}</em>
+          <span class="recipe-copy"><strong>${recipe.name}</strong><span>${recipe.description}</span><small>${cost} · ${recipe.footprint.width}×${recipe.footprint.height} tiles</small></span>
         </button>`;
       })
       .join('');
